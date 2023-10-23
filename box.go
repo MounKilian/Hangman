@@ -5,14 +5,14 @@ import (
 	"github.com/rivo/tview"
 )
 
-func Box() {
+func Box(word string) {
 
 	app := tview.NewApplication()
 
 	titleColor := tcell.ColorBlue
 	titleBorderColor := tcell.ColorRed
 
-	text1 := ("\n +---+  \n |   |  \n  O   |  \n /|   |  \n 	|  \n 	|  \n =========")
+	text1 := (" \n\n+---+\n|   |\nO   |\n/|\\  |\n/ \\  |\n    |\n=========")
 
 	hangmanGame := tview.NewTextView().
 		SetText(text1).
@@ -25,7 +25,7 @@ func Box() {
 		SetTitleColor(titleColor)
 
 	lettresTrouvees := tview.NewTextView().
-		SetText("Lettres trouvées : ").
+		SetText(word).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -44,7 +44,6 @@ func Box() {
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
-	//
 	essais := tview.NewTextView().
 		SetText("Essais").
 		SetTextAlign(tview.AlignCenter).

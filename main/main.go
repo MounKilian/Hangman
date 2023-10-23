@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	hangman.Box()
+	hangman.Box(hangman.SearchWord("words.txt"))
 }
