@@ -3,9 +3,10 @@ package hangman
 import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+	"strconv"
 )
 
-func Box(word string) {
+func Box(H *HangManData) {
 
 	app := tview.NewApplication()
 
@@ -25,7 +26,7 @@ func Box(word string) {
 		SetTitleColor(titleColor)
 
 	lettresTrouvees := tview.NewTextView().
-		SetText(word).
+		SetText(H.ToFind).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -44,13 +45,13 @@ func Box(word string) {
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
-	essais := tview.NewTextView().
-		SetText("Essais").
+	attempts := tview.NewTextView().
+		SetText(strconv.Itoa(H.Attempts)).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
-	essais.SetBorder(true).
-		SetTitle("Essais").
+	attempts.SetBorder(true).
+		SetTitle("Attempts").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
@@ -59,7 +60,7 @@ func Box(word string) {
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 			AddItem(lettresTrouvees, 0, 2, false).
 			AddItem(choixLettre, 0, 2, false).
-			AddItem(essais, 5, 2, false), 0, 3, false)
+			AddItem(attempts, 5, 2, false), 0, 3, false)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
 		panic(err)
