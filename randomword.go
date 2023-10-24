@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func SearchWord(file string) string {
+func RandomWord(file string) string {
 	array := []string{}
 	readFile, err := os.Open(file)
 
@@ -24,15 +24,15 @@ func SearchWord(file string) string {
 		array = append(array, fileScanner.Text())
 	}
 
-	num := randomNumb()
+	num := randomNumb(array)
 	wordtofind := array[num-1]
 	wordtofind = "\n" + wordtofind
 	return wordtofind
 }
 
-func randomNumb() int {
+func randomNumb(array []string) int {
 	rand.Seed(time.Now().UnixNano())
 	min := 1
-	max := 38
+	max := len(array)
 	return (rand.Intn(max-min+1) + min)
 }
