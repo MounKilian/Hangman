@@ -1,9 +1,9 @@
 package hangman
 
 import (
+	"strconv"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
-	"strconv"
 )
 
 func Box(H *HangManData) {
@@ -36,7 +36,7 @@ func Box(H *HangManData) {
 		SetTitleColor(titleColor)
 
 	choixLettre := tview.NewTextView().
-		SetText("Choix Lettre🔠 : ").
+		SetText(H.Word).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 

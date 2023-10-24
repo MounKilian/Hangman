@@ -12,8 +12,8 @@ type HangManData struct {
 func New() *HangManData {
 	arg := "dic/" + os.Args[1]
 	var H HangManData
-	H.Word = ""
 	H.ToFind = RandomWord(string(arg))
+	H.Word = RandomWordUnderscore(H.ToFind)
 	H.Attempts = 10
 	H.HangmanPositions = [10]string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 	return &H
