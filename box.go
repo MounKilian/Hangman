@@ -2,6 +2,7 @@ package hangman
 
 import (
 	"strconv"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -13,7 +14,7 @@ func Box(H *HangManData) {
 	titleColor := tcell.ColorBlue
 	titleBorderColor := tcell.ColorRed
 
-	text1 := (" \n\n+---+\n|   |\nO   |\n/|\\  |\n/ \\  |\n    |\n=========")
+	text1 := (" \n\n+---+\n|   |\nO   |\n/|\\  |\n/ \\  |\n    |\n=========") + "\n"
 
 	hangmanGame := tview.NewTextView().
 		SetText(text1).
@@ -26,7 +27,7 @@ func Box(H *HangManData) {
 		SetTitleColor(titleColor)
 
 	lettresTrouvees := tview.NewTextView().
-		SetText(H.ToFind).
+		SetText(H.Letters).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 

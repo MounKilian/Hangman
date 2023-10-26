@@ -7,6 +7,7 @@ type HangManData struct {
 	ToFind           string     // Final word chosen by the program at the beginning. It is the word to find
 	Attempts         int        // Number of attempts left
 	HangmanPositions [10]string // It can be the array where the positions parsed in "hangman.txt" are stored
+	Letters          string
 }
 
 func New() *HangManData {
@@ -21,5 +22,10 @@ func New() *HangManData {
 
 func HangmanSolver() {
 	var H = New()
+	letteruse := ""
+	for _, i := range LettersUse(H) {
+		letteruse += i
+	}
+	H.Letters = letteruse
 	Box(H)
 }
