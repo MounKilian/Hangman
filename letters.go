@@ -18,3 +18,37 @@ func LettersUse(H *HangManData) []string {
 	}
 	return lettersuse
 }
+
+func Verification(H *HangManData) {
+	new_word := ""
+	array := []string{}
+	count := 0
+	for _, k := range H.Word {
+		if k != ' ' {
+			array = append(array, string(k))
+		}
+	}
+	for i := 1; i <= len(H.ToFind)-1; i++ {
+		if string(H.ToFind[i]) == H.LetterInput {
+			array[i-1] = H.LetterInput
+			count++
+		}
+	}
+	for _, letter := range array {
+		new_word += " " + letter
+	}
+	if count == 0 {
+		H.Attempts--
+	}
+	H.Word = ""
+	H.Word = new_word
+}
+
+func VerifIfAlreadyUse(H *HangManData) bool {
+	for _, i := range H.Letters {
+		if H.LetterInput == string(i) {
+			return true
+		}
+	}
+	return false
+}

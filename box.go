@@ -27,7 +27,7 @@ func Box(H *HangManData) {
 		SetTitleColor(titleColor)
 
 	lettresTrouvees := tview.NewTextView().
-		SetText(H.Letters).
+		SetText("\n\n" + H.Letters).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -56,8 +56,42 @@ func Box(H *HangManData) {
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
+	input := tview.NewInputField().
+		SetLabel("Enter a letter: ").
+		SetFieldWidth(15).
+		SetAcceptanceFunc(tview.InputFieldMaxLength(20))
+
+	input.SetBorder(true).
+		SetTitle("Letter : ").
+		SetBorderColor(titleBorderColor).
+		SetTitleColor(titleColor)
+
+	input.SetDoneFunc(func(key tcell.Key) {
+		if key == tcell.KeyEnter {
+			H.LetterInput = input.GetText()
+			// if len(H.LetterInput) == 1 {
+			if !VerifIfAlreadyUse(H) {
+				H.Letters += " | " + H.LetterInput
+				Verification(H)
+				attempts.SetText(strconv.Itoa(H.Attempts))
+				choixLettre.SetText(H.Word)
+				lettresTrouvees.SetText(H.Letters) // Mettre à jour le widget lettresTrouvees
+				input.SetText("")                  // Effacer le champ d'entrée
+				input.SetLabel("Enter a letter: ")
+			} else {
+				input.SetText("")
+				input.SetLabel("Enter a letter not already used :")
+			}
+			// } else if len(H.LetterInput) > 1{
+			// 	print("ok")
+			// }
+		}
+	})
+
 	flex := tview.NewFlex().
-		AddItem(hangmanGame, 0, 2, false).
+		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
+			AddItem(input, 0, 1, true).
+			AddItem(hangmanGame, 0, 2, false), 0, 3, true).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 			AddItem(lettresTrouvees, 0, 2, false).
 			AddItem(choixLettre, 0, 2, false).
