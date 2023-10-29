@@ -1,7 +1,7 @@
 package main
 
 import (
-	"hangman"
+	"hangman/hangman"
 )
 
 func main() {

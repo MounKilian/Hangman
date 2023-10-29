@@ -25,7 +25,7 @@ func HangmanSolver() {
 	var H = New()
 	letteruse := ""
 	for _, i := range LettersUse(H) {
-		letteruse += " | " + i
+		letteruse += i + " | "
 	}
 	H.Letters = letteruse
 	Box(H)

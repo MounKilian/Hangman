@@ -2,6 +2,7 @@ package hangman
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
@@ -69,23 +70,44 @@ func Box(H *HangManData) {
 	input.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
 			H.LetterInput = input.GetText()
-			// if len(H.LetterInput) == 1 {
-			if !VerifIfAlreadyUse(H) {
-				H.Letters += " | " + H.LetterInput
-				Verification(H)
-				attempts.SetText(strconv.Itoa(H.Attempts))
-				choixLettre.SetText(H.Word)
-				lettresTrouvees.SetText(H.Letters) // Mettre à jour le widget lettresTrouvees
-				input.SetText("")                  // Effacer le champ d'entrée
-				input.SetLabel("Enter a letter: ")
+			if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
+				if len(H.LetterInput) == 1 {
+					H.Letters += H.LetterInput + " | "
+					Verification(H)
+					attempts.SetText(strconv.Itoa(H.Attempts))
+					choixLettre.SetText(H.Word)
+					lettresTrouvees.SetText(H.Letters)
+					input.SetText("")
+					input.SetLabel("Enter a letter or a word : ")
+					if WordFind(H) {
+						time.Sleep(1 * time.Second)
+						app.Stop()
+						Victory()
+					}
+				} else if len(H.LetterInput) > 1 {
+					H.Letters += H.LetterInput + " | "
+					win := EnterWord(H)
+					attempts.SetText(strconv.Itoa(H.Attempts))
+					choixLettre.SetText(H.Word)
+					lettresTrouvees.SetText(H.Letters)
+					input.SetText("")
+					input.SetLabel("Enter a letter or a word : ")
+					if win {
+						time.Sleep(1 * time.Second)
+						app.Stop()
+						Victory()
+					}
+				}
 			} else {
 				input.SetText("")
-				input.SetLabel("Enter a letter not already used :")
+				input.SetLabel("Enter a valid letter not already used :")
 			}
-			// } else if len(H.LetterInput) > 1{
-			// 	print("ok")
-			// }
+			if H.Attempts <= 0 {
+				app.Stop()
+				Defaite()
+			}
 		}
+
 	})
 
 	flex := tview.NewFlex().
