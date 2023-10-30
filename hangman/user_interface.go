@@ -28,12 +28,13 @@ func Victory() {
 	}
 }
 
-func Defaite() {
+func Defaite(H *HangManData) {
 	app := tview.NewApplication()
 
 	hangmanGame := tview.NewTextView().
-		SetText("Defaite").
+		SetText("\n" + "Defaite" + "\n" + HangmanState(H)).
 		SetTextAlign(tview.AlignCenter).
+		SetLabelWidth(2).
 		SetDynamicColors(true)
 
 	hangmanGame.SetBorder(true).

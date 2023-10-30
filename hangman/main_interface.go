@@ -15,10 +15,8 @@ func Box(H *HangManData) {
 	titleColor := tcell.ColorBlue
 	titleBorderColor := tcell.ColorRed
 
-	text1 := (" \n\n+---+\n|   |\nO   |\n/|\\  |\n/ \\  |\n    |\n=========") + "\n"
-
 	hangmanGame := tview.NewTextView().
-		SetText(text1).
+		SetText("\n\n\n\n\n\n\n Esc to quit the game").
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -74,7 +72,9 @@ func Box(H *HangManData) {
 				if len(H.LetterInput) == 1 {
 					H.Letters += H.LetterInput + " | "
 					Verification(H)
+					hangmanState := HangmanState(H)
 					attempts.SetText(strconv.Itoa(H.Attempts))
+					hangmanGame.SetText(hangmanState + "\n\n\n\n\n\n\n Esc to quit the game")
 					choixLettre.SetText(H.Word)
 					lettresTrouvees.SetText(H.Letters)
 					input.SetText("")
@@ -87,7 +87,9 @@ func Box(H *HangManData) {
 				} else if len(H.LetterInput) > 1 {
 					H.Letters += H.LetterInput + " | "
 					win := EnterWord(H)
+					hangmanState := HangmanState(H)
 					attempts.SetText(strconv.Itoa(H.Attempts))
+					hangmanGame.SetText(hangmanState + "\n\n\n\n\n\n\n Esc to quit the game")
 					choixLettre.SetText(H.Word)
 					lettresTrouvees.SetText(H.Letters)
 					input.SetText("")
@@ -103,11 +105,14 @@ func Box(H *HangManData) {
 				input.SetLabel("Enter a valid letter not already used :")
 			}
 			if H.Attempts <= 0 {
+				time.Sleep(1 * time.Second)
 				app.Stop()
-				Defaite()
+				Defaite(H)
 			}
 		}
-
+		if key == tcell.KeyEsc {
+			app.Stop()
+		}
 	})
 
 	flex := tview.NewFlex().

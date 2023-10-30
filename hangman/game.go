@@ -1,5 +1,11 @@
 package hangman
 
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
 // Give the letters used in the first reveal
 func LettersUse(H *HangManData) []string {
 	count := 0
@@ -80,7 +86,11 @@ func EnterWord(H *HangManData) bool {
 		etat = false
 	}
 	if !etat {
-		H.Attempts -= len(H.LetterInput)
+		if H.Attempts < 2 {
+			H.Attempts = 0
+		} else {
+			H.Attempts -= 2
+		}
 	} else {
 		for _, k := range H.ToFind {
 			new_word += " " + string(k)
@@ -113,4 +123,34 @@ func WordFind(H *HangManData) bool {
 		etat = false
 	}
 	return etat
+}
+
+func HangmanState(H *HangManData) string {
+	hangmandraw := ""
+	file, err := os.Open("hangman.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	line := 0
+	if H.Attempts < len(H.HangmanPositions) {
+		for scanner.Scan() {
+			line++
+
+			if line > H.HangmanPositions[H.Attempts] && line <= H.HangmanPositions[H.Attempts]+7 {
+				hangmandraw += "\n" + scanner.Text()
+			}
+
+			if line >= H.HangmanPositions[H.Attempts]+7 {
+				break
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
+	return hangmandraw
 }
