@@ -68,6 +68,10 @@ func Box(H *HangManData) {
 	input.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
 			H.LetterInput = input.GetText()
+			if H.LetterInput == "STOP" {
+				app.Stop()
+				Save(H)
+			}
 			if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
 				if len(H.LetterInput) == 1 {
 					H.Letters += H.LetterInput + " | "
@@ -109,9 +113,6 @@ func Box(H *HangManData) {
 				app.Stop()
 				Defaite(H)
 			}
-		}
-		if key == tcell.KeyEsc {
-			app.Stop()
 		}
 	})
 

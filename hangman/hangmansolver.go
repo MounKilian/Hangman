@@ -1,6 +1,10 @@
 package hangman
 
-import "os"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
 
 type HangManData struct {
 	Word             string  // Word composed of '_', ex: H_ll_
@@ -22,11 +26,23 @@ func New() *HangManData {
 }
 
 func HangmanSolver() {
-	var H = New()
-	letteruse := ""
-	for _, i := range LettersUse(H) {
-		letteruse += i + " | "
+	flag.String("startWith", "default", "Specify a file name to start with")
+	flag.Parse()
+	if len(os.Args[1:]) == 2 {
+		if os.Args[2] == "save.txt" {
+			var H HangManData
+			LoadGame("save.txt", &H)
+			Box(&H)
+		}
+	} else if len(os.Args[1:]) == 1 {
+		H := New()
+		letteruse := ""
+		for _, i := range LettersUse(H) {
+			letteruse += i + " | "
+		}
+		H.Letters = letteruse
+		Box(H)
+	} else {
+		fmt.Print("Syntax problem")
 	}
-	H.Letters = letteruse
-	Box(H)
 }
