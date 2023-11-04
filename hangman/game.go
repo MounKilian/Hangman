@@ -125,6 +125,7 @@ func WordFind(H *HangManData) bool {
 	return etat
 }
 
+// Return the Hangman draw wich corresponds with nbr of attempts remaining
 func HangmanState(H *HangManData) string {
 	hangmandraw := ""
 	file, err := os.Open("hangman.txt")
@@ -138,13 +139,8 @@ func HangmanState(H *HangManData) string {
 	if H.Attempts < len(H.HangmanPositions) {
 		for scanner.Scan() {
 			line++
-
 			if line > H.HangmanPositions[H.Attempts] && line <= H.HangmanPositions[H.Attempts]+7 {
 				hangmandraw += "\n" + scanner.Text()
-			}
-
-			if line >= H.HangmanPositions[H.Attempts]+7 {
-				break
 			}
 		}
 	}

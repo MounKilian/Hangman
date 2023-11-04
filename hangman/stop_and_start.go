@@ -2,42 +2,37 @@ package hangman
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 )
 
+// Encode the current struct of the game in a byte in save.txt
 func Save(H *HangManData) {
 	save, err := json.Marshal(H)
 	if err != nil {
-		fmt.Println("Erreur lors de la conversion en JSON:", err)
-		return
+		os.Exit(1)
 	}
 
 	file, err := os.Create("save.txt")
 	if err != nil {
-		fmt.Println("Erreur lors de l'ouverture du fichier:", err)
-		return
+		os.Exit(2)
 	}
 	defer file.Close()
 
 	_, err = file.Write(save)
 	if err != nil {
-		fmt.Println("Erreur lors de l'écriture dans le fichier:", err)
-		return
+		os.Exit(3)
 	}
-	fmt.Println(string(save))
 }
 
+// Decode the struct in the save.txt
 func LoadGame(file string, H *HangManData) {
-	jsonData, err := ioutil.ReadFile(file)
+	load, err := ioutil.ReadFile(file)
 	if err != nil {
-		fmt.Println("Erreur lors de la lecture du fichier JSON:", err)
-		return
+		os.Exit(4)
 	}
-	err = json.Unmarshal(jsonData, H)
+	err = json.Unmarshal(load, H)
 	if err != nil {
-		fmt.Println("Erreur lors de la désérialisation JSON:", err)
-		return
+		os.Exit(5)
 	}
 }

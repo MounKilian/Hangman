@@ -1,1 +1,1 @@
-{"Word":" a l b _ m","ToFind":"\nalbum","Attempts":8,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"l | b | a | e | p | m | ","LetterInput":"STOP"}
+{"Word":" m _ r","ToFind":"\nmur","Attempts":8,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"r | e | l | m | ","LetterInput":"STOP"}

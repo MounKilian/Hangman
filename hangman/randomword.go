@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Pick a random word in the file
 func RandomWord(file string) string {
 	array := []string{}
 	readFile, err := os.Open(file)
@@ -30,6 +31,7 @@ func RandomWord(file string) string {
 	return wordtofind
 }
 
+// Transform the word to find with underscore
 func RandomWordUnderscore(word string) string {
 	wordUnderscore := []string{}
 	n := len(word)/2 - 1
@@ -75,6 +77,7 @@ func RandomWordUnderscore(word string) string {
 	}
 }
 
+// Pick a random number
 func RandomNumbArray(array []string) int {
 	rand.Seed(time.Now().UnixNano())
 	min := 1

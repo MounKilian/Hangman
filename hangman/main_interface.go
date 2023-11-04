@@ -15,95 +15,90 @@ func Box(H *HangManData) {
 	titleColor := tcell.ColorBlue
 	titleBorderColor := tcell.ColorRed
 
-	hangmanGame := tview.NewTextView().
-		SetText("\n\n\n\n\n\n\n Esc to quit the game").
+	// The box of the Hangman state draw
+	hangmanDraw := tview.NewTextView().
+		SetText(HangmanState(H)).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
-	hangmanGame.SetBorder(true).
-		SetTitle("Hangman Game🎉").
+	hangmanDraw.SetBorder(true).
+		SetTitle(" Hangman State ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
-	lettresTrouvees := tview.NewTextView().
+	// The box of Letters use
+	lettersUse := tview.NewTextView().
 		SetText("\n\n" + H.Letters).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
-	lettresTrouvees.SetBorder(true).
-		SetTitle("🔍Lettres Trouvées🔎").
+	lettersUse.SetBorder(true).
+		SetTitle(" Letters Use ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
-	choixLettre := tview.NewTextView().
+	// The box of Word state
+	wordState := tview.NewTextView().
 		SetText(H.Word).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
-	choixLettre.SetBorder(true).
-		SetTitle("Choix Lettre🔠 : ").
+	wordState.SetBorder(true).
+		SetTitle(" Word State ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
+	// The box of Attempts remaining
 	attempts := tview.NewTextView().
 		SetText(strconv.Itoa(H.Attempts)).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
 	attempts.SetBorder(true).
-		SetTitle("Attempts").
+		SetTitle(" Attempts ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
+	// The box user input
 	input := tview.NewInputField().
-		SetLabel("Enter a letter: ").
+		SetLabel(" Enter a letter: ").
 		SetFieldWidth(15).
 		SetAcceptanceFunc(tview.InputFieldMaxLength(20))
 
 	input.SetBorder(true).
-		SetTitle("Letter : ").
+		SetTitle(" Letter Choice ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
 
 	input.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
 			H.LetterInput = input.GetText()
+			//If the user enter "STOP" that save the current game
 			if H.LetterInput == "STOP" {
 				app.Stop()
 				Save(H)
 			}
+			//If the user enter a letter
 			if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
 				if len(H.LetterInput) == 1 {
-					H.Letters += H.LetterInput + " | "
 					Verification(H)
-					hangmanState := HangmanState(H)
-					attempts.SetText(strconv.Itoa(H.Attempts))
-					hangmanGame.SetText(hangmanState + "\n\n\n\n\n\n\n Esc to quit the game")
-					choixLettre.SetText(H.Word)
-					lettresTrouvees.SetText(H.Letters)
-					input.SetText("")
-					input.SetLabel("Enter a letter or a word : ")
+					NewText(H, hangmanDraw, wordState, lettersUse, attempts, input)
 					if WordFind(H) {
 						time.Sleep(1 * time.Second)
 						app.Stop()
 						Victory()
 					}
+					//If the user enter a word
 				} else if len(H.LetterInput) > 1 {
-					H.Letters += H.LetterInput + " | "
 					win := EnterWord(H)
-					hangmanState := HangmanState(H)
-					attempts.SetText(strconv.Itoa(H.Attempts))
-					hangmanGame.SetText(hangmanState + "\n\n\n\n\n\n\n Esc to quit the game")
-					choixLettre.SetText(H.Word)
-					lettresTrouvees.SetText(H.Letters)
-					input.SetText("")
-					input.SetLabel("Enter a letter or a word : ")
+					NewText(H, hangmanDraw, wordState, lettersUse, attempts, input)
 					if win {
 						time.Sleep(1 * time.Second)
 						app.Stop()
 						Victory()
 					}
 				}
+				//If the user enter an invalid or already use letter or word
 			} else {
 				input.SetText("")
 				input.SetLabel("Enter a valid letter not already used :")
@@ -116,16 +111,28 @@ func Box(H *HangManData) {
 		}
 	})
 
+	//Regroup all the item for print
 	flex := tview.NewFlex().
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
 			AddItem(input, 0, 1, true).
-			AddItem(hangmanGame, 0, 2, false), 0, 3, true).
+			AddItem(hangmanDraw, 0, 2, false), 0, 3, true).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
-			AddItem(lettresTrouvees, 0, 2, false).
-			AddItem(choixLettre, 0, 2, false).
+			AddItem(lettersUse, 0, 2, false).
+			AddItem(wordState, 0, 2, false).
 			AddItem(attempts, 5, 2, false), 0, 3, false)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
 		panic(err)
 	}
+}
+
+// Refresh the data after all the input of the user
+func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview.TextView, input *tview.InputField) {
+	H.Letters += H.LetterInput + " | "
+	attempts.SetText(strconv.Itoa(H.Attempts))
+	hangmanDraw.SetText(HangmanState(H))
+	wordState.SetText(H.Word)
+	lettersUse.SetText(H.Letters)
+	input.SetText("")
+	input.SetLabel("Enter a letter or a word : ")
 }

@@ -15,18 +15,20 @@ type HangManData struct {
 	LetterInput      string
 }
 
+// Create the struct to start the game
 func New() *HangManData {
-	arg := "dic/" + os.Args[1]
+	word_file := "dic/" + os.Args[1]
 	var H HangManData
-	H.ToFind = RandomWord(string(arg))
+	H.ToFind = RandomWord(string((word_file)))
 	H.Word = RandomWordUnderscore(H.ToFind)
 	H.Attempts = 10
 	H.HangmanPositions = [10]int{72, 64, 56, 48, 40, 32, 24, 16, 8, 0}
 	return &H
 }
 
+// Detect with flag if the user want start a new game or load a game
 func HangmanSolver() {
-	flag.String("startWith", "default", "Specify a file name to start with")
+	flag.String("startWith", "default", "File name to start with")
 	flag.Parse()
 	if len(os.Args[1:]) == 2 {
 		if os.Args[2] == "save.txt" {
@@ -43,6 +45,7 @@ func HangmanSolver() {
 		H.Letters = letteruse
 		Box(H)
 	} else {
-		fmt.Print("Syntax problem")
+		fmt.Println("Syntax problem")
+		os.Exit(6)
 	}
 }
