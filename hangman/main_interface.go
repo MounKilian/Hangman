@@ -86,7 +86,7 @@ func Box(H *HangManData) {
 					if WordFind(H) {
 						time.Sleep(1 * time.Second)
 						app.Stop()
-						Victory()
+						Victory(H)
 					}
 					//If the user enter a word
 				} else if len(H.LetterInput) > 1 {
@@ -95,7 +95,7 @@ func Box(H *HangManData) {
 					if win {
 						time.Sleep(1 * time.Second)
 						app.Stop()
-						Victory()
+						Victory(H)
 					}
 				}
 				//If the user enter an invalid or already use letter or word
