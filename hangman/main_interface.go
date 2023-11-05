@@ -106,7 +106,7 @@ func Box(H *HangManData) {
 			if H.Attempts <= 0 {
 				time.Sleep(1 * time.Second)
 				app.Stop()
-				Defaite(H)
+				Defeat(H)
 			}
 		}
 	})
@@ -131,7 +131,7 @@ func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview
 	H.Letters += H.LetterInput + " | "
 	attempts.SetText(strconv.Itoa(H.Attempts))
 	hangmanDraw.SetText(HangmanState(H))
-	wordState.SetText(H.Word)
+	wordState.SetText("\n" + ConvertToASCII(H))
 	lettersUse.SetText(H.Letters)
 	input.SetText("")
 	input.SetLabel("Enter a letter or a word : ")

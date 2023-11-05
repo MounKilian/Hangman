@@ -37,6 +37,7 @@ func HangmanSolver() {
 			Box(&H)
 		}
 	} else if len(os.Args[1:]) == 1 {
+		Menu()
 		H := New()
 		letteruse := ""
 		for _, i := range LettersUse(H) {

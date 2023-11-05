@@ -4,7 +4,7 @@ go 1.21.0
 
 require (
 	github.com/gdamore/tcell/v2 v2.6.0
-	github.com/rivo/tview v0.0.0-20231007183732-6c844bdc5f7a
+	github.com/rivo/tview v0.0.0-20231102183219-1b91b8131c43
 )
 
 require (
