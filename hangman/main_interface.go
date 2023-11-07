@@ -41,7 +41,6 @@ func Box(H *HangManData) {
 	// The box of Word state
 	wordState := tview.NewTextView().
 		SetText(H.Word).
-		// SetSize(1, 1).
 		SetLabelWidth(20).
 		SetTextAlign(tview.AlignLeft).
 		SetDynamicColors(true)
@@ -72,6 +71,8 @@ func Box(H *HangManData) {
 		SetTitle(" Letter Choice ").
 		SetBorderColor(titleBorderColor).
 		SetTitleColor(titleColor)
+
+	wordState.SetText(H.Word)
 
 	input.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
@@ -117,12 +118,9 @@ func Box(H *HangManData) {
 	//Regroup all the item for print
 	flex := tview.NewFlex().
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
-			AddItem(input, 0, 1, true).
-			AddItem(hangmanDraw, 0, 2, false), 0, 3, true).
+			AddItem(hangmanDraw, 0, 1, false).AddItem(attempts, 5, 2, false), 0, 1, true).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
-			AddItem(wordState, 0, 2, false).
-			AddItem(lettersUse, 0, 1, false).
-			AddItem(attempts, 5, 2, false), 0, 3, false)
+			AddItem(wordState, 0, 2, false).AddItem(lettersUse, 0, 1, false).AddItem(input, 0, 1, true), 0, 3, false)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
 		panic(err)
@@ -134,6 +132,7 @@ func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview
 	H.Letters += H.LetterInput + " | "
 	attempts.SetText(strconv.Itoa(H.Attempts))
 	hangmanDraw.SetText(HangmanState(H))
+	// wordState.SetText(ConvertToASCII("ASCII/standard.txt", H))
 	wordState.SetText(H.Word)
 	lettersUse.SetText(H.Letters)
 	input.SetText("")

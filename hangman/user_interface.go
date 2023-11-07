@@ -84,7 +84,7 @@ func Menu() {
 	}
 }
 
-func ConvertToASCII(file string, H *HangManData) {
+func ConvertToASCII(file string, H *HangManData) string{
 	ASCII_word := ""
 	letter := ""
 	for k := 0; k <= 8; k++ {
@@ -143,5 +143,5 @@ func ConvertToASCII(file string, H *HangManData) {
 		}
 		ASCII_word += "\n"
 	}
-	H.Word = ASCII_word
+	return ASCII_word
 }

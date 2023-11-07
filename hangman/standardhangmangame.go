@@ -6,7 +6,18 @@ import (
 )
 
 func StandardHangmanGame(file string, H *HangManData) {
-	NewTextStandard(file, H)
+	fmt.Println("----------------------- ATTEMPTS REMAINING -----------------------")
+	fmt.Println(H.Attempts)
+	fmt.Println("------------------------------------------------------------------")
+	fmt.Println("------------------------- HANGMAN STATE --------------------------")
+	fmt.Println(HangmanState(H))
+	fmt.Println("------------------------------------------------------------------")
+	fmt.Println("-------------------------- LETTERS USE ---------------------------")
+	fmt.Println(H.Letters)
+	fmt.Println("------------------------------------------------------------------")
+	fmt.Println("------------------------------ WORD ------------------------------")
+	fmt.Println(ConvertToASCII("ASCII/"+file, H))
+	fmt.Println("------------------------------------------------------------------")
 	for {
 		fmt.Println("-------------------------- LETTER CHOICE -------------------------")
 		fmt.Print("Choose : ")
@@ -59,9 +70,6 @@ func NewTextStandard(file string, H *HangManData) {
 	fmt.Println(H.Letters)
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------------ WORD ------------------------------")
-	help := H.Word
-	ConvertToASCII("ASCII/"+file, H)
-	fmt.Println(H.Word)
-	H.Word = help
+	fmt.Println(ConvertToASCII("ASCII/"+file, H))
 	fmt.Println("------------------------------------------------------------------")
 }
