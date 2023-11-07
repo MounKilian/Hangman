@@ -16,8 +16,8 @@ type HangManData struct {
 }
 
 // Create the struct to start the game
-func New() *HangManData {
-	word_file := "dic/" + os.Args[1]
+func New(file string) *HangManData {
+	word_file := "dic/" + file
 	var H HangManData
 	H.ToFind = RandomWord(string((word_file)))
 	H.Word = RandomWordUnderscore(H.ToFind)
@@ -29,16 +29,26 @@ func New() *HangManData {
 // Detect with flag if the user want start a new game or load a game
 func HangmanSolver() {
 	flag.String("startWith", "default", "File name to start with")
+	flag.String("letterFile", "standard.txt", "File name to choose ASCII")
 	flag.Parse()
-	if len(os.Args[1:]) == 2 {
-		if os.Args[2] == "save.txt" {
+	if len(os.Args[1:]) >= 2 {
+		if os.Args[1] == "--startWith" && os.Args[2] == "save.txt" {
 			var H HangManData
 			LoadGame("save.txt", &H)
 			Box(&H)
+		} else if os.Args[1] == "--letterFile" && (os.Args[2] == "standard.txt" || os.Args[2] == "shadow.txt" || os.Args[2] == "thinkertoy.txt") {
+			Menu()
+			H := New(os.Args[3])
+			letteruse := ""
+			for _, i := range LettersUse(H) {
+				letteruse += i + " | "
+			}
+			H.Letters = letteruse
+			StandardHangmanGame(os.Args[2], H)
 		}
 	} else if len(os.Args[1:]) == 1 {
 		Menu()
-		H := New()
+		H := New(os.Args[1])
 		letteruse := ""
 		for _, i := range LettersUse(H) {
 			letteruse += i + " | "

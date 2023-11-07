@@ -76,6 +76,7 @@ func Menu() {
 	form.SetButtonsAlign(tview.AlignCenter)
 
 	form.AddTextView("", "\n\n\n               .##......##....########....##...........######......#######.....##.....##....########\n               .##..##..##....##..........##..........##....##....##.....##....###...###....##......\n               .##..##..##....##..........##..........##..........##.....##....####.####....##......\n               .##..##..##....######......##..........##..........##.....##....##.###.##....######..\n               .##..##..##....##..........##..........##..........##.....##....##.....##....##......\n               .##..##..##....##..........##..........##....##....##.....##....##.....##....##......\n               ..###..###.....########....########.....######......#######.....##.....##....########\n", 0, 16, true, true)
+
 	form.SetFieldTextColor(tcell.ColorDarkBlue)
 
 	if err := app.SetRoot(form, true).EnableMouse(true).Run(); err != nil {
@@ -83,32 +84,89 @@ func Menu() {
 	}
 }
 
-func ConvertToASCII(H *HangManData) string {
+func ConvertToASCII(file string, H *HangManData) {
 	ASCII_word := ""
 	letter := ""
-	for _, i := range H.Word {
-		if i == '_' {
-			file, err := os.Open("ASCII/standard.txt")
-			if err != nil {
-				fmt.Println(err)
-			}
-			defer file.Close()
-			scanner := bufio.NewScanner(file)
-			line := 0
-			for scanner.Scan() {
-				line++
-				if line == 122 {
-					letter += scanner.Text()
+	for k := 0; k <= 8; k++ {
+		for _, i := range H.Word {
+			if i == '_' && k == 6 && file == "standard.txt" {
+				file, err := os.Open(file)
+				if err != nil {
+					fmt.Println(err)
 				}
+				defer file.Close()
+				scanner := bufio.NewScanner(file)
+				line := 0
+				for scanner.Scan() {
+					line++
+					if line == 121 {
+						letter += scanner.Text() + " "
+					}
+				}
+				ASCII_word += letter
+				letter = ""
+			} else if i >= 'a' && i <= 'z' {
+				letter_position := int(i) - 97
+				line_ref := 2*(4*letter_position) + 586
+				file, err := os.Open(file)
+				if err != nil {
+					fmt.Println(err)
+				}
+				defer file.Close()
+				scanner := bufio.NewScanner(file)
+				line := 0
+				for scanner.Scan() {
+					line++
+					if line == letter_position+k+line_ref {
+						letter += scanner.Text() + " "
+					}
+				}
+				if err := scanner.Err(); err != nil {
+					fmt.Println(err)
+				}
+				ASCII_word += letter
+				letter = ""
+			} else if i == '_' && k == 7 && file == "thinkertoy.txt" {
+				file, err := os.Open(file)
+				if err != nil {
+					fmt.Println(err)
+				}
+				defer file.Close()
+				scanner := bufio.NewScanner(file)
+				line := 0
+				for scanner.Scan() {
+					line++
+					if line == 123 {
+						letter += scanner.Text() + " "
+					}
+				}
+				ASCII_word += letter
+				letter = ""
+			} else if i == '_' && k == 7 {
+				file, err := os.Open(file)
+				if err != nil {
+					fmt.Println(err)
+				}
+				defer file.Close()
+				scanner := bufio.NewScanner(file)
+				line := 0
+				for scanner.Scan() {
+					line++
+					if line == 122 {
+						letter += scanner.Text() + " "
+					}
+				}
+				ASCII_word += letter
+				letter = ""
+			} else if i == '_' && file == "standard.txt" {
+				ASCII_word += "          "
+			} else if i == '_' && file == "shadow.txt" {
+				ASCII_word += "            "
+			} else if i == '_' && file == "thinkertoy.txt" {
+				ASCII_word += "     "
 			}
-			if err := scanner.Err(); err != nil {
-				fmt.Println(err)
-			}
-			ASCII_word += letter + " "
-			letter = ""
-		} else if i >= 'a' && i<= 'z'{
-			print(rune(i))
 		}
+		ASCII_word += "\n"
 	}
-	return ASCII_word
+	H.Word = ASCII_word
 }

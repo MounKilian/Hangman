@@ -11,6 +11,7 @@ import (
 func Box(H *HangManData) {
 
 	app := tview.NewApplication()
+	app.EnableMouse(true)
 
 	titleColor := tcell.ColorBlue
 	titleBorderColor := tcell.ColorRed
@@ -40,7 +41,9 @@ func Box(H *HangManData) {
 	// The box of Word state
 	wordState := tview.NewTextView().
 		SetText(H.Word).
-		SetTextAlign(tview.AlignCenter).
+		// SetSize(1, 1).
+		SetLabelWidth(20).
+		SetTextAlign(tview.AlignLeft).
 		SetDynamicColors(true)
 
 	wordState.SetBorder(true).
@@ -117,8 +120,8 @@ func Box(H *HangManData) {
 			AddItem(input, 0, 1, true).
 			AddItem(hangmanDraw, 0, 2, false), 0, 3, true).
 		AddItem(tview.NewFlex().SetDirection(tview.FlexRow).
-			AddItem(lettersUse, 0, 2, false).
 			AddItem(wordState, 0, 2, false).
+			AddItem(lettersUse, 0, 1, false).
 			AddItem(attempts, 5, 2, false), 0, 3, false)
 
 	if err := app.SetRoot(flex, true).Run(); err != nil {
@@ -131,7 +134,7 @@ func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview
 	H.Letters += H.LetterInput + " | "
 	attempts.SetText(strconv.Itoa(H.Attempts))
 	hangmanDraw.SetText(HangmanState(H))
-	wordState.SetText("\n" + ConvertToASCII(H))
+	wordState.SetText(H.Word)
 	lettersUse.SetText(H.Letters)
 	input.SetText("")
 	input.SetLabel("Enter a letter or a word : ")

@@ -1,1 +1,1 @@
-{"Word":" _ h a _ _ e","ToFind":"\nchaise","Attempts":6,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"h | e | n | m | a | azerty | ","LetterInput":"STOP"}
+{"Word":" _ h _ _ s _","ToFind":"\nchaise","Attempts":10,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"h | s |  | ","LetterInput":"STOP"}

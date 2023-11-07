@@ -26,7 +26,7 @@ func LettersUse(H *HangManData) []string {
 	return lettersuse
 }
 
-// Give the new information when a letter is enter in the user input
+// Give the new information when a letter is enter in the user input 
 func Verification(H *HangManData) {
 	new_word := ""
 	array := []string{}
