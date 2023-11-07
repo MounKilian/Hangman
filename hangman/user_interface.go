@@ -89,22 +89,8 @@ func ConvertToASCII(file string, H *HangManData) {
 	letter := ""
 	for k := 0; k <= 8; k++ {
 		for _, i := range H.Word {
-			if i == '_' && k == 6 && file == "standard.txt" {
-				file, err := os.Open(file)
-				if err != nil {
-					fmt.Println(err)
-				}
-				defer file.Close()
-				scanner := bufio.NewScanner(file)
-				line := 0
-				for scanner.Scan() {
-					line++
-					if line == 121 {
-						letter += scanner.Text() + " "
-					}
-				}
-				ASCII_word += letter
-				letter = ""
+			if i == '_' {
+				ASCII_word += "          "
 			} else if i >= 'a' && i <= 'z' {
 				letter_position := int(i) - 97
 				line_ref := 2*(4*letter_position) + 586
@@ -126,7 +112,13 @@ func ConvertToASCII(file string, H *HangManData) {
 				}
 				ASCII_word += letter
 				letter = ""
-			} else if i == '_' && k == 7 && file == "thinkertoy.txt" {
+			}
+		}
+		ASCII_word += "\n"
+	}
+	for j := 0; j <= 3; j++ {
+		for _, m := range H.Word {
+			if m == '_' {
 				file, err := os.Open(file)
 				if err != nil {
 					fmt.Println(err)
@@ -136,34 +128,17 @@ func ConvertToASCII(file string, H *HangManData) {
 				line := 0
 				for scanner.Scan() {
 					line++
-					if line == 123 {
+					if line == 121+j {
 						letter += scanner.Text() + " "
 					}
 				}
-				ASCII_word += letter
-				letter = ""
-			} else if i == '_' && k == 7 {
-				file, err := os.Open(file)
-				if err != nil {
+				if err := scanner.Err(); err != nil {
 					fmt.Println(err)
 				}
-				defer file.Close()
-				scanner := bufio.NewScanner(file)
-				line := 0
-				for scanner.Scan() {
-					line++
-					if line == 122 {
-						letter += scanner.Text() + " "
-					}
-				}
 				ASCII_word += letter
 				letter = ""
-			} else if i == '_' && file == "standard.txt" {
-				ASCII_word += "          "
-			} else if i == '_' && file == "shadow.txt" {
-				ASCII_word += "            "
-			} else if i == '_' && file == "thinkertoy.txt" {
-				ASCII_word += "     "
+			} else if m >= 'a' && m <= 'z' {
+				ASCII_word += "        "
 			}
 		}
 		ASCII_word += "\n"

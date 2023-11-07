@@ -59,7 +59,9 @@ func NewTextStandard(file string, H *HangManData) {
 	fmt.Println(H.Letters)
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------------ WORD ------------------------------")
+	help := H.Word
 	ConvertToASCII("ASCII/"+file, H)
 	fmt.Println(H.Word)
+	H.Word = help
 	fmt.Println("------------------------------------------------------------------")
 }
