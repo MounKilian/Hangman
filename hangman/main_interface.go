@@ -40,7 +40,6 @@ func Box(H *HangManData) {
 
 	// The box of Word state
 	wordState := tview.NewTextView().
-		SetText(H.Word).
 		SetLabelWidth(20).
 		SetTextAlign(tview.AlignLeft).
 		SetDynamicColors(true)
@@ -73,6 +72,11 @@ func Box(H *HangManData) {
 		SetTitleColor(titleColor)
 
 	wordState.SetText(H.Word)
+	if H.File != "default.txt" {
+		wordState.SetText(ConvertToASCII("ASCII/"+H.File, H))
+	} else {
+		wordState.SetText(H.Word)
+	}
 
 	input.SetDoneFunc(func(key tcell.Key) {
 		if key == tcell.KeyEnter {
@@ -132,8 +136,11 @@ func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview
 	H.Letters += H.LetterInput + " | "
 	attempts.SetText(strconv.Itoa(H.Attempts))
 	hangmanDraw.SetText(HangmanState(H))
-	// wordState.SetText(ConvertToASCII("ASCII/standard.txt", H))
-	wordState.SetText(H.Word)
+	if H.File != "default.txt" {
+		wordState.SetText(ConvertToASCII("ASCII/"+H.File, H))
+	} else {
+		wordState.SetText(H.Word)
+	}
 	lettersUse.SetText(H.Letters)
 	input.SetText("")
 	input.SetLabel("Enter a letter or a word : ")
