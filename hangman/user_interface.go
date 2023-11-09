@@ -59,6 +59,7 @@ func Defeat(H *HangManData) {
 	}
 }
 
+// Print new box when the player start the game
 func Menu() bool {
 	etat := true
 	app := tview.NewApplication()
@@ -91,6 +92,7 @@ func Menu() bool {
 	return etat
 }
 
+// Convert a word to ascii
 func ConvertToASCII(file string, H *HangManData) string {
 	ASCII_word := ""
 	letter := ""

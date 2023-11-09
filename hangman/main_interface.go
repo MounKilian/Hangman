@@ -18,7 +18,7 @@ func Box(H *HangManData) {
 
 	// The box of the Hangman state draw
 	hangmanDraw := tview.NewTextView().
-		SetText(HangmanState(H)).
+		SetText("\n\n\n\n" + HangmanState(H)).
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -40,8 +40,7 @@ func Box(H *HangManData) {
 
 	// The box of Word state
 	wordState := tview.NewTextView().
-		SetLabelWidth(20).
-		SetTextAlign(tview.AlignLeft).
+		SetLabelWidth(0).
 		SetDynamicColors(true)
 
 	wordState.SetBorder(true).
@@ -51,7 +50,7 @@ func Box(H *HangManData) {
 
 	// The box of Attempts remaining
 	attempts := tview.NewTextView().
-		SetText(strconv.Itoa(H.Attempts)).
+		SetText("Good Luck, " + strconv.Itoa(H.Attempts) + " attempts remaining").
 		SetTextAlign(tview.AlignCenter).
 		SetDynamicColors(true)
 
@@ -65,7 +64,7 @@ func Box(H *HangManData) {
 		SetLabel(" Enter a letter: ").
 		SetFieldWidth(15).
 		SetAcceptanceFunc(tview.InputFieldMaxLength(20))
-
+		
 	input.SetBorder(true).
 		SetTitle(" Letter Choice ").
 		SetBorderColor(titleBorderColor).
@@ -74,8 +73,10 @@ func Box(H *HangManData) {
 	wordState.SetText(H.Word)
 	if H.File != "default.txt" {
 		wordState.SetText(ConvertToASCII("ASCII/"+H.File, H))
+		wordState.SetTextAlign(tview.AlignLeft)
 	} else {
-		wordState.SetText(H.Word)
+		wordState.SetText("\n\n\n\n\n" + H.Word)
+		wordState.SetTextAlign(tview.AlignCenter)
 	}
 
 	input.SetDoneFunc(func(key tcell.Key) {
@@ -134,8 +135,8 @@ func Box(H *HangManData) {
 // Refresh the data after all the input of the user
 func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview.TextView, input *tview.InputField) {
 	H.Letters += H.LetterInput + " | "
-	attempts.SetText(strconv.Itoa(H.Attempts))
-	hangmanDraw.SetText(HangmanState(H))
+	attempts.SetText("Good Luck, " + strconv.Itoa(H.Attempts) + " attempts remaining")
+	hangmanDraw.SetText("\n\n\n\n" + HangmanState(H))
 	if H.File != "default.txt" {
 		wordState.SetText(ConvertToASCII("ASCII/"+H.File, H))
 	} else {

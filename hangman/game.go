@@ -102,27 +102,12 @@ func EnterWord(H *HangManData) bool {
 
 // Return true if the word is complete false if isn't
 func WordFind(H *HangManData) bool {
-	count := 0
-	etat := true
-	new_word := ""
-	for _, j := range H.Word {
-		if j != ' ' {
-			new_word += string(j)
+	for _, i := range H.Word {
+		if i == '_' {
+			return false
 		}
 	}
-	if len(new_word) == len(H.ToFind)-1 {
-		for i := 0; i <= len(new_word)-1; i++ {
-			if string(new_word[i]) != string(H.ToFind[i+1]) {
-				count++
-			}
-		}
-		if count >= 1 {
-			etat = false
-		}
-	} else {
-		etat = false
-	}
-	return etat
+	return true
 }
 
 // Return the Hangman draw wich corresponds with nbr of attempts remaining

@@ -2,13 +2,14 @@ package hangman
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
 func StandardHangmanGame(H *HangManData) {
 	fmt.Println()
 	fmt.Println("----------------------- ATTEMPTS REMAINING -----------------------")
-	fmt.Println(H.Attempts)
+	fmt.Println("Good Luck, " + strconv.Itoa(H.Attempts) + " attempts remaining")
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------- HANGMAN STATE --------------------------")
 	fmt.Println(HangmanState(H))
@@ -53,7 +54,7 @@ func StandardHangmanGame(H *HangManData) {
 			}
 			//If the user enter an invalid or already use letter or word
 		} else {
-			NewTextStandard(H)
+			fmt.Println("Letter invalid or already use  ")
 		}
 		if H.Attempts <= 0 {
 			time.Sleep(1 * time.Second)
@@ -63,11 +64,12 @@ func StandardHangmanGame(H *HangManData) {
 	}
 }
 
+// Refresh the data after all the input of the user
 func NewTextStandard(H *HangManData) {
 	H.Letters += H.LetterInput + " | "
 	fmt.Println()
 	fmt.Println("----------------------- ATTEMPTS REMAINING -----------------------")
-	fmt.Println(H.Attempts)
+	fmt.Println("Good Luck, " + strconv.Itoa(H.Attempts) + " attempts remaining")
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------- HANGMAN STATE --------------------------")
 	fmt.Println(HangmanState(H))
