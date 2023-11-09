@@ -59,12 +59,18 @@ func Defeat(H *HangManData) {
 	}
 }
 
-func Menu() {
+func Menu() bool {
+	etat := true
 	app := tview.NewApplication()
 
 	form := tview.NewForm().
-		AddButton("Play", func() {
+		AddButton("Standard", func() {
 			app.Stop()
+			etat = false
+		}).
+		AddButton("Tview", func() {
+			app.Stop()
+			etat = true
 		}).
 		AddButton("Quit", func() {
 			app.Stop()
@@ -82,9 +88,10 @@ func Menu() {
 	if err := app.SetRoot(form, true).EnableMouse(true).Run(); err != nil {
 		panic(err)
 	}
+	return etat
 }
 
-func ConvertToASCII(file string, H *HangManData) string{
+func ConvertToASCII(file string, H *HangManData) string {
 	ASCII_word := ""
 	letter := ""
 	for k := 0; k <= 8; k++ {

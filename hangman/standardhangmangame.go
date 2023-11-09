@@ -5,7 +5,8 @@ import (
 	"time"
 )
 
-func StandardHangmanGame(file string, H *HangManData) {
+func StandardHangmanGame(H *HangManData) {
+	fmt.Println()
 	fmt.Println("----------------------- ATTEMPTS REMAINING -----------------------")
 	fmt.Println(H.Attempts)
 	fmt.Println("------------------------------------------------------------------")
@@ -16,7 +17,11 @@ func StandardHangmanGame(file string, H *HangManData) {
 	fmt.Println(H.Letters)
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------------ WORD ------------------------------")
-	fmt.Println(ConvertToASCII("ASCII/"+file, H))
+	if H.File != "default.txt" {
+		fmt.Println(ConvertToASCII("ASCII/"+H.File, H))
+	} else {
+		fmt.Println(H.Word)
+	}
 	fmt.Println("------------------------------------------------------------------")
 	for {
 		fmt.Println("-------------------------- LETTER CHOICE -------------------------")
@@ -31,7 +36,7 @@ func StandardHangmanGame(file string, H *HangManData) {
 		if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
 			if len(H.LetterInput) == 1 {
 				Verification(H)
-				NewTextStandard(file, H)
+				NewTextStandard(H)
 				if WordFind(H) {
 					time.Sleep(1 * time.Second)
 					Victory(H)
@@ -40,7 +45,7 @@ func StandardHangmanGame(file string, H *HangManData) {
 				//If the user enter a word
 			} else if len(H.LetterInput) > 1 {
 				win := EnterWord(H)
-				NewTextStandard(file, H)
+				NewTextStandard(H)
 				if win {
 					Victory(H)
 					break
@@ -48,7 +53,7 @@ func StandardHangmanGame(file string, H *HangManData) {
 			}
 			//If the user enter an invalid or already use letter or word
 		} else {
-			NewTextStandard(file, H)
+			NewTextStandard(H)
 		}
 		if H.Attempts <= 0 {
 			time.Sleep(1 * time.Second)
@@ -58,8 +63,9 @@ func StandardHangmanGame(file string, H *HangManData) {
 	}
 }
 
-func NewTextStandard(file string, H *HangManData) {
+func NewTextStandard(H *HangManData) {
 	H.Letters += H.LetterInput + " | "
+	fmt.Println()
 	fmt.Println("----------------------- ATTEMPTS REMAINING -----------------------")
 	fmt.Println(H.Attempts)
 	fmt.Println("------------------------------------------------------------------")
@@ -70,6 +76,10 @@ func NewTextStandard(file string, H *HangManData) {
 	fmt.Println(H.Letters)
 	fmt.Println("------------------------------------------------------------------")
 	fmt.Println("------------------------------ WORD ------------------------------")
-	fmt.Println(ConvertToASCII("ASCII/"+file, H))
+	if H.File != "default.txt" {
+		fmt.Println(ConvertToASCII("ASCII/"+H.File, H))
+	} else {
+		fmt.Println(H.Word)
+	}
 	fmt.Println("------------------------------------------------------------------")
 }

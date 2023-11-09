@@ -1,1 +1,1 @@
-{"Word":" _ h _ _ s _","ToFind":"\nchaise","Attempts":10,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"h | s |  | ","LetterInput":"STOP"}
+{"Word":" p o r t e m a n t e a _","ToFind":"\nportemanteau","Attempts":10,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"p | o | t | n | r | e | m | a | ","LetterInput":"STOP","File":"standard.txt","TypeOfGame":false}

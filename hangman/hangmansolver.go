@@ -13,48 +13,68 @@ type HangManData struct {
 	HangmanPositions [10]int // It can be the array where the positions parsed in "hangman.txt" are stored
 	Letters          string
 	LetterInput      string
+	File             string
+	TypeOfGame       bool
 }
 
 // Create the struct to start the game
-func New(file string) *HangManData {
+func New(file string, ASCII_File string) *HangManData {
 	word_file := "dic/" + file
 	var H HangManData
 	H.ToFind = RandomWord(string((word_file)))
 	H.Word = RandomWordUnderscore(H.ToFind)
 	H.Attempts = 10
 	H.HangmanPositions = [10]int{72, 64, 56, 48, 40, 32, 24, 16, 8, 0}
+	H.File = ASCII_File
+	H.TypeOfGame = true
 	return &H
 }
 
 // Detect with flag if the user want start a new game or load a game
 func HangmanSolver() {
 	flag.String("startWith", "default", "File name to start with")
-	flag.String("letterFile", "standard.txt", "File name to choose ASCII")
+	flag.String("letterFile", "default", "File name to choose ASCII")
 	flag.Parse()
 	if len(os.Args[1:]) >= 2 {
 		if os.Args[1] == "--startWith" && os.Args[2] == "save.txt" {
 			var H HangManData
 			LoadGame("save.txt", &H)
-			Box(&H)
-		} else if os.Args[1] == "--letterFile" && (os.Args[2] == "standard.txt" || os.Args[2] == "shadow.txt" || os.Args[2] == "thinkertoy.txt") {
-			Menu()
-			H := New(os.Args[3])
+			if !H.TypeOfGame {
+				StandardHangmanGame(&H)
+			} else {
+				Box(&H)
+			}
+		} else if os.Args[1] == "--letterFile" && (os.Args[2] == "standard.txt" || os.Args[2] == "shadow.txt" || os.Args[2] == "thinkertoy.txt" || os.Args[2] == "default.txt") {
+			state := Menu()
+			H := New(os.Args[3], os.Args[2])
 			letteruse := ""
 			for _, i := range LettersUse(H) {
 				letteruse += i + " | "
 			}
 			H.Letters = letteruse
-			StandardHangmanGame(os.Args[2], H)
+			if !state {
+				H.TypeOfGame = false
+				StandardHangmanGame(H)
+			} else {
+				H.TypeOfGame = true
+				Box(H)
+			}
 		}
 	} else if len(os.Args[1:]) == 1 {
-		Menu()
-		H := New(os.Args[1])
+		state := Menu()
+		H := New(os.Args[1], "default.txt")
 		letteruse := ""
 		for _, i := range LettersUse(H) {
 			letteruse += i + " | "
 		}
 		H.Letters = letteruse
-		Box(H)
+		if !state {
+			H.TypeOfGame = false
+			StandardHangmanGame(H)
+		} else {
+			H.TypeOfGame = true
+			Box(H)
+		}
 	} else {
 		fmt.Println("Syntax problem")
 		os.Exit(6)
