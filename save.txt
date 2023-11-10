@@ -1,1 +1,0 @@
-{"Word":" _ e _ _ _ e","ToFind":"\nmeuble","Attempts":10,"HangmanPositions":[72,64,56,48,40,32,24,16,8,0],"Letters":"e | ","LetterInput":"STOP","File":"default.txt","TypeOfGame":true}
