@@ -2,7 +2,7 @@
 
 Welcome to Hangman ! This project is based on the famous HangMan Game
 
-<img src="img_README/captureHangmanREADME(a_changer).png" width="800" />
+<img src="img_README/img.png" width="800" />
 
 # Prerequisite :rewind:
 
@@ -28,7 +28,9 @@ Somes knowledges in this field :
 ```bash
   go run main/main.go words.txt
 ```
-2. You can change the words.txt among one file in the dic folder
+2. You can change the words.txt among words.txt words2.txt or words3.txt
+
+3. You can choose between the standard game and the tview game
 
 # How Play ? :hammer:
 
@@ -42,6 +44,14 @@ If you want to stop the game the player has to write "STOP" in the input. It wil
   go run main/main.go --startWith save.txt
 ```
 That allow you to launch the game with the file you saved before.
+
+If you want to play with ASCII Art you can write this command :
+```bash
+  go run main/main.go --letterFile standard.txt  words.txt
+```
+You can choose ASCII file among shadow.txt standard.txt or thinkertoy.txt and choose a word file among words.txt words2.txt or words3.txt.
+
+WARNING: If the ASCII art is poorly displayed, that's because of the length of the screen. Try to play on standard game
 
 # Version :card_file_box:
 
