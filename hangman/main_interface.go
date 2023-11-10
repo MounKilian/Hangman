@@ -140,7 +140,7 @@ func NewText(H *HangManData, hangmanDraw, wordState, lettersUse, attempts *tview
 	if H.File != "default.txt" {
 		wordState.SetText(ConvertToASCII("ASCII/"+H.File, H))
 	} else {
-		wordState.SetText(H.Word)
+		wordState.SetText("\n\n\n\n\n" +H.Word)
 	}
 	lettersUse.SetText(H.Letters)
 	input.SetText("")
