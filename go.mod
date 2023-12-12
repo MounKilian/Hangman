@@ -1,4 +1,4 @@
-module github.com/MounKilian/hangman
+module github.com/MounKilian/Hangman
 
 go 1.21.0
 
