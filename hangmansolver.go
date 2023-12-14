@@ -52,11 +52,7 @@ func HangmanSolver() {
 		} else if os.Args[1] == "--letterFile" && (os.Args[2] == "standard.txt" || os.Args[2] == "shadow.txt" || os.Args[2] == "thinkertoy.txt" || os.Args[2] == "default.txt") {
 			state := Menu()
 			H := New(os.Args[3], os.Args[2])
-			letteruse := ""
-			for _, i := range LettersUse(H) {
-				letteruse += i + " | "
-			}
-			H.Letters = letteruse
+			FirstLetter(H)
 			if !state {
 				H.TypeOfGame = false
 				StandardHangmanGame(H)
@@ -68,11 +64,7 @@ func HangmanSolver() {
 	} else if len(os.Args[1:]) == 1 {
 		state := Menu()
 		H := New(os.Args[1], "default.txt")
-		letteruse := ""
-		for _, i := range LettersUse(H) {
-			letteruse += i + " | "
-		}
-		H.Letters = letteruse
+		FirstLetter(H)
 		if !state {
 			H.TypeOfGame = false
 			StandardHangmanGame(H)
@@ -84,4 +76,12 @@ func HangmanSolver() {
 		fmt.Println("Syntax problem")
 		os.Exit(6)
 	}
+}
+
+func FirstLetter(H *HangManData) {
+	letteruse := ""
+	for _, i := range LettersUse(H) {
+		letteruse += i + " | "
+	}
+	H.Letters = letteruse
 }
