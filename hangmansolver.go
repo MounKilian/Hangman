@@ -27,6 +27,7 @@ func New(file string, ASCII_File string) *HangManData {
 	H.HangmanPositions = [10]int{72, 64, 56, 48, 40, 32, 24, 16, 8, 0}
 	H.File = ASCII_File
 	H.TypeOfGame = true
+	H.LetterInput = " "
 	return &H
 }
 
