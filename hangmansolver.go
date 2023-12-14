@@ -31,6 +31,10 @@ func New(file string, ASCII_File string) *HangManData {
 	return &H
 }
 
+func Test() {
+	fmt.Print("Hello")
+}
+
 // Detect with flag if the user want start a new game or load a game
 func HangmanSolver() {
 	flag.String("startWith", "default", "File name to start with")
