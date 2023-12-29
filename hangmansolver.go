@@ -15,13 +15,14 @@ type HangManData struct {
 	LetterInput      string
 	File             string
 	TypeOfGame       bool
+	WordFile         string
 }
 
 // Create the struct to start the game
 func New(file string, ASCII_File string) *HangManData {
-	word_file := "dic/" + file
 	var H HangManData
-	H.ToFind = RandomWord(string((word_file)))
+	H.WordFile = "dic/" + file
+	H.ToFind = RandomWord(string((H.WordFile)))
 	H.Word = RandomWordUnderscore(H.ToFind)
 	H.Attempts = 10
 	H.HangmanPositions = [10]int{72, 64, 56, 48, 40, 32, 24, 16, 8, 0}
