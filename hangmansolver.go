@@ -7,18 +7,20 @@ import (
 )
 
 type HangManData struct {
-	Word             string  // Word composed of '_', ex: H_ll_
-	ToFind           string  // Final word chosen by the program at the beginning. It is the word to find
-	Attempts         int     // Number of attempts left
-	HangmanPositions [10]int // It can be the array where the positions parsed in "hangman.txt" are stored
-	Letters          string
-	LetterInput      string
-	File             string
-	TypeOfGame       bool
-	WordFile         string
-	Username         string
-	Scoreboard       [][]string
-	NewScore         []string
+	Word             string     // Word composed of '_', ex: H_ll_
+	ToFind           string     // Final word chosen by the program at the beginning. It is the word to find
+	Attempts         int        // Number of attempts left
+	HangmanPositions [10]int    // It can be the array where the positions parsed in "hangman.txt" are stored
+	Letters          string     // List of all letters used
+	LetterInput      string     // LetterInput by the user
+	File             string     // File for ASCII Art
+	TypeOfGame       bool       // True if the game is with tview and false if is it without tview
+	WordFile         string     // To know wich word file choose the user
+	Username         string     // To know the username of the user (HangmanWeb)
+	Scoreboard       [][]string // To store the scoreboard of the game (HangmanWeb)
+	NewScore         []string   // To store the score of the user (HangmanWeb)
+	Point            int        // Points of the user during the game (HangmanWeb)
+	Level            string     // To know if user is in hard, medium or easy level (HangmanWeb)
 }
 
 // Create the struct to start the game
