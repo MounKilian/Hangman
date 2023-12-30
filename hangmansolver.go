@@ -17,6 +17,8 @@ type HangManData struct {
 	TypeOfGame       bool
 	WordFile         string
 	Username         string
+	Scoreboard       [][]string
+	NewScore         []string
 }
 
 // Create the struct to start the game
