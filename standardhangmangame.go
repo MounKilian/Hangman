@@ -34,29 +34,11 @@ func StandardHangmanGame(H *HangManData) {
 			break
 		}
 		//If the user enter a letter
-		if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
-			if len(H.LetterInput) == 1 {
-				Verification(H)
-				NewTextStandard(H)
-				if WordFind(H) {
-					time.Sleep(1 * time.Second)
-					Victory(H)
-					break
-				}
-				//If the user enter a word
-			} else if len(H.LetterInput) > 1 {
-				win := EnterWord(H)
-				NewTextStandard(H)
-				if win {
-					Victory(H)
-					break
-				}
-			}
-			//If the user enter an invalid or already use letter or word
-		} else {
-			fmt.Println("Letter invalid or already use  ")
-		}
-		if H.Attempts <= 0 {
+		if GameLoop(H) == 1 {
+			time.Sleep(1 * time.Second)
+			Victory(H)
+			break
+		} else if GameLoop(H) == 0 {
 			time.Sleep(1 * time.Second)
 			Defeat(H)
 			break
@@ -84,4 +66,32 @@ func NewTextStandard(H *HangManData) {
 		fmt.Println(H.Word)
 	}
 	fmt.Println("------------------------------------------------------------------")
+}
+
+func GameLoop(H *HangManData) int {
+	if !VerifIfAlreadyUse(H) && (H.LetterInput >= "a" && H.LetterInput <= "z") {
+		if len(H.LetterInput) == 1 {
+			Verification(H)
+			NewTextStandard(H)
+			if WordFind(H) {
+				return 1
+			}
+			//If the user enter a word
+		} else if len(H.LetterInput) > 1 {
+			win := EnterWord(H)
+			NewTextStandard(H)
+			if win {
+				return 1
+			}
+		}
+		//If the user enter an invalid or already use letter or word
+	} else {
+		fmt.Println("Letter invalid or already use  ")
+		return 9
+	}
+	if H.Attempts <= 0 {
+		return 0
+	} else {
+		return 9
+	}
 }
