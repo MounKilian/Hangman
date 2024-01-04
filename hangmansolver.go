@@ -21,8 +21,8 @@ type HangManData struct {
 	NewScore         []string   // To store the score of the user (HangmanWeb)
 	Point            int        // Points of the user during the game (HangmanWeb)
 	Level            string     // To know if user is in hard, medium or easy level (HangmanWeb)
-	Loose            string		// To know how many loose made the user (HangmanWeb)
-	Win              string		// To know how many win made the user (HangmanWeb)
+	Loose            int		// To know how many loose made the user (HangmanWeb)
+	Win              int		// To know how many win made the user (HangmanWeb)
 }
 
 // Create the struct to start the game
